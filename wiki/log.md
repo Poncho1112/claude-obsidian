@@ -2,7 +2,7 @@
 created: 2026-04-07
 type: meta
 title: "Operation Log"
-updated: 2026-04-08
+updated: 2026-07-15
 tags:
   - meta
   - log
@@ -25,6 +25,16 @@ Entry format: `## [YYYY-MM-DD] operation | Title`
 Parse recent entries: `grep "^## \[" wiki/log.md | head -10`
 
 ---
+
+## [2026-07-15] lint | Follow-up pass: DragonScale addresses, Category C/E links, semantic tiling
+- Type: wiki-lint follow-up (same day as the drift-reconcile lint below) + fixes, no ingest
+- Transport: `detect-transport.sh` false-positived on the Obsidian Electron app launcher (`AppData/Local/Programs/Obsidian/obsidian`) as `obsidian-cli`; no real CLI binary exists on host. Corrected `.vault-meta/transport.json` (local, gitignored) to `preferred: mcp_obsidian`, verified live via `get_vault_stats`.
+- Re-scan confirmed no regressions (orphans 0, frontmatter gaps 0) and surfaced one gap the prior pass missed: 5 pages postdate the 2026-04-23 DragonScale rollout but had no `address:` — [[Persistent Wiki Artifact]], [[Query-Time Retrieval]], [[Source-First Synthesis]], [[methodology-modes]], [[transport-fallback]]. Assigned `c-000003`–`c-000007` (`7b5bd02`); counter 3→8.
+- Category C (9 dead cross-plugin wikilinks, 6 targets, e.g. `[[wiki-cli]]`) converted to full vault-path wikilinks with alias, e.g. `[[skills/wiki-cli/SKILL|wiki-cli]]` (`6844db2`). Category E confirmed already resolved in the prior session, no live dead links remained.
+- Empty-section heuristic flagged ~29 hits; spot-check showed all false positives (headings inside fenced code examples, normal H2→H3 hierarchy) — not reliable without a markdown-aware parser, skipped rather than reported.
+- `.gitattributes` added pinning `.obsidian/*.json` to LF (`10cd8a4`) — `core.autocrlf=true` with no attributes file was flagging those 3 files dirty every session on pure line-ending noise (content was byte-identical).
+- Semantic tiling (DragonScale M3): host Python lacks `fcntl` (tiling-check.py needs POSIX) and WSL2 (NAT mode) can't reach Windows-bound Ollama on `127.0.0.1`, so installed Ollama + `nomic-embed-text` fresh inside WSL Ubuntu and ran the check from there (`/mnt/c/...` path). Report: [[tiling-report-2026-07-15]]. 50 pages scanned, 26 embedded (24 skipped: meta/fold/excluded + 1 embed error). 2 error-band pairs (`Compounding Knowledge`↔`LLM Wiki Pattern`, `claude-obsidian-ecosystem`↔`claude-obsidian-ecosystem-research`), both manually reviewed and confirmed false positives (deliberately split companion pages; standard source→synthesis pair) — no merge (`640c9ab`, `bcddf0c`).
+- Every item on [[lint-report-2026-07-15]] is now resolved. Pushed to `mine/main`, fork-only.
 
 ## [2026-07-15] maintenance | Windows portability + delta reconcile + fork push
 - Type: setup + fix + git hygiene (no ingest — source was already filed)

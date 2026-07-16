@@ -2,7 +2,7 @@
 created: 2026-04-07
 type: meta
 title: "Hot Cache"
-updated: 2026-07-15T21:15:00
+updated: 2026-07-15T22:55:00
 tags:
   - meta
   - hot-cache
@@ -21,44 +21,49 @@ Navigation: [[index]] | [[log]] | [[overview]]
 
 ## Last Updated
 
-2026-07-15 (evening, maintenance session). **Current shipped version: v1.9.2.**
-Four commits landed this session, pushed to the `Poncho1112` fork only (see
-Repo Locations). Latest local commit `c864e2c`.
+2026-07-15 (evening, lint follow-up session). **Current shipped version: v1.9.2.**
+Five commits landed this session, pushed to the `Poncho1112` fork only. Latest
+local commit `bcddf0c`.
 
 ## Plugin State
 
 - **Version**: 1.9.2 (`.claude-plugin/plugin.json` + `marketplace.json` synced)
 - **Skills**: 15 — wiki, wiki-ingest, wiki-query, wiki-lint, wiki-fold, save,
   autoresearch, canvas, defuddle, obsidian-bases, obsidian-markdown, wiki-cli,
-  wiki-retrieve, wiki-mode, **think** (v1.9, skill #15).
+  wiki-retrieve, wiki-mode, think.
 - **Tests**: `make test` runs 9 hermetic suites. Zero ollama / zero network.
 - **Hooks**: 4 (SessionStart [+ stale-lock reaper], PostCompact, PostToolUse
   [pathspec-scoped `wiki/ .raw/`], Stop).
 
-## This Session (2026-07-15 evening)
+## This Session (2026-07-15 evening, lint follow-up)
 
-- **mcpvault MCP registered** — `obsidian-vault` at user scope (`claude mcp`),
-  `npx @bitbonsai/mcpvault@latest C:/Users/Poncho/claude-obsidian`, Status
-  Connected. Third tier in the transport chain (CLI → mcp-obsidian → mcpvault →
-  filesystem). Tools load next session; this session used filesystem transport.
-- **ecosystem-research confirmed already-ingested** — source page + 6 entity
-  pages + comparison already existed (8 pages). `.raw/.manifest.json` `sources`
-  was empty, so `/wiki` misreported it "pending." Backfilled the delta record
-  (`30b21f4`); no pages re-created.
-- **Allocator Windows fix** (`2bf0946`) — `scripts/allocate-address.sh` relied on
-  `flock` (absent in Git-Bash on Windows → exit 1, broke DragonScale addressing).
-  Now falls back to an atomic `mkdir` mutex (5s timeout, `STALE_AFTER_SEC=30`
-  stale reclaim, trap release); `flock` still preferred where present. Verified
-  in Git-Bash; live counter untouched (still 3).
-- **Lint reconcile filed** (`dbb2a9f`, 23 files) + **workspace.json/graph.json
-  untracked + gitignored** (`c864e2c`; drops pre-configured graph view for fresh
-  clones — accepted).
+- **Transport corrected**: `detect-transport.sh` false-positived on the
+  Obsidian Electron app launcher as `obsidian-cli` (no real CLI binary on
+  host). `.vault-meta/transport.json` (local, gitignored) now prefers
+  `mcp_obsidian` — verified working via `get_vault_stats`.
+- **[[lint-report-2026-07-15]] fully resolved**: found + fixed a DragonScale
+  address gap the prior pass missed (5 post-rollout pages, `c-000003`–
+  `c-000007` assigned, counter now 8); fixed 9 Category C dead cross-plugin
+  wikilinks (full vault-path + alias, e.g. `[[skills/wiki-cli/SKILL|wiki-cli]]`);
+  confirmed Category E already clean; empty-section heuristic found only
+  false positives, skipped.
+- **`.gitattributes` added** pinning `.obsidian/*.json` to LF — fixes
+  recurring false-dirty git status from `core.autocrlf=true` (pure line-ending
+  noise, no real content changes).
+- **Semantic tiling (DragonScale M3) shipped and run**: installed Ollama +
+  `nomic-embed-text` in WSL Ubuntu (host Python lacks `fcntl`; WSL2 NAT can't
+  reach Windows-bound Ollama on loopback, so installed fresh in WSL rather
+  than reconfigure networking). Report: [[tiling-report-2026-07-15]]. 2
+  error-band pairs found, both manually reviewed as false positives
+  (deliberately split companion pages; standard source→synthesis pair) — no
+  merge needed.
 
 ## DragonScale Mechanisms
 
-All four shipped, opt-in, feature-gated: (1) fold operator, (2) deterministic
-addresses (counter at 3; allocator now Windows-portable), (3) semantic tiling
-lint, (4) boundary-first autoresearch.
+All four shipped and now exercised end-to-end: (1) fold operator, (2)
+deterministic addresses (counter at 8, Windows-portable allocator), (3)
+semantic tiling lint (ran successfully via WSL this session), (4)
+boundary-first autoresearch.
 
 ## Style Preferences
 
@@ -66,12 +71,17 @@ lint, (4) boundary-first autoresearch.
   parentheses. Hyphens in compound words are fine.
 - Short, direct responses. No trailing summaries.
 - Parallel tool calls when independent.
+- WSL commands that need interactive sudo must be run by the user directly
+  in their own terminal (not via the `!` prefix or Bash tool) — password
+  can't be relayed through either.
 
 ## Active Threads
 
-- Working tree clean except 3 intentionally-tracked `.obsidian` config files
-  (`app.json`, `appearance.json`, `core-plugins.json`) — left as-is.
-- Deferred: semantic tiling (needs ollama), [[log]] milestone backfill.
+- Working tree clean. No open lint items.
+- Tiling thresholds (0.80/0.90) are uncalibrated defaults and run hot for
+  this vault's style (companion pages, source/synthesis pairs cluster near
+  0.90). Full calibration pass (label ~50 pairs) not done, offered but not
+  requested.
 - No PR to upstream (`AgriciDaniel`) — user chose fork-only.
 
 ## Repo Locations
