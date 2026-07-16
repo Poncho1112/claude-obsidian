@@ -1,4 +1,6 @@
 ---
+created: 2026-05-17
+tags: [meta, benchmark, retrieval]
 type: meta
 title: "v1.7 Retrieval Benchmark Corpus"
 status: evergreen

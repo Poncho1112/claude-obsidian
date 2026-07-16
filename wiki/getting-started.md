@@ -1,4 +1,5 @@
 ---
+created: 2026-04-07
 type: meta
 title: "Getting Started"
 updated: 2026-04-07

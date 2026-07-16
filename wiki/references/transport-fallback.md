@@ -1,4 +1,6 @@
 ---
+created: 2026-05-17
+tags: [reference, transport]
 type: reference
 title: "Transport Fallback Decision Tree"
 status: evergreen

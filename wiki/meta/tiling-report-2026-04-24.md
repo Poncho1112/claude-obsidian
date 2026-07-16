@@ -1,3 +1,12 @@
+---
+type: meta
+title: "Tiling Report 2026-04-24"
+created: 2026-04-24
+updated: 2026-04-24
+tags: [meta, tiling, dragonscale]
+status: generated
+---
+
 # Semantic Tiling Report
 
 - generated: 2026-04-24T09:20:59Z

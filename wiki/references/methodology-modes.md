@@ -1,4 +1,6 @@
 ---
+created: 2026-05-17
+updated: 2026-05-17
 type: reference
 title: "Methodology Modes — Quick Decision Tree"
 tags:

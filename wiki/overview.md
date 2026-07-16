@@ -48,16 +48,15 @@ Run `/wiki` to scaffold this vault for your own domain and replace this overview
 
 ## Current State
 
-- Sources ingested: 2
-- Wiki pages: 26
-- Last activity: 2026-04-08 (v1.4.1 shipped, release session filed)
+- Sources ingested: 1
+- Wiki pages: 49
+- Last activity: 2026-07-15 (lint reconcile; plugin shipped through v1.9.2)
 
 ---
 
 ## Canvases
 
 - [[claude-obsidian-presentation]] — Full presentation: hero, overview, skills, architecture, Wiki vs RAG, visual demos (2026-04-07)
-- [[AI Marketing Hub Cover Images Canvas]] — Cover image library for AI Marketing Hub brand assets
 
 ---
 

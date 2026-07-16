@@ -1,4 +1,5 @@
 ---
+created: 2026-04-07
 type: meta
 title: "Operation Log"
 updated: 2026-04-08
@@ -25,6 +26,15 @@ Parse recent entries: `grep "^## \[" wiki/log.md | head -10`
 
 ---
 
+## [2026-07-15] lint | Drift reconcile (content layer → v1.9.2)
+- Type: wiki-lint health check + fixes
+- Report: [[lint-report-2026-07-15]] (49 pages scanned, filesystem transport — no Obsidian CLI on host)
+- Fixed: [[index]] header (34→49 pages, 2→1 source, date 2026-04-15→2026-07-15); added `References` section listing [[transport-fallback]] + [[methodology-modes]] (de-orphaned both, orphans 2→0); stripped `?` from 4 `[[How does the LLM Wiki pattern work]]` wikilinks; backfilled `created:` on 14 pages + full frontmatter on [[tiling-report-2026-04-24]] (frontmatter gaps 15→0)
+- Cat E dead links: dropped 5 non-existent `related:` pointers from session notes ([[Claude Obsidian]], [[Claude Canvas]], [[Rankenstein]], [[E-commerce SEO]]×2), retargeted [[Karpathy LLM Wiki Pattern]] → [[LLM Wiki Pattern]], removed dead `[[AI Marketing Hub Cover Images Canvas]]` from [[overview]] (+ refreshed its stale 26→49 page stat)
+- Left as-is: canvas/base links (resolve in Obsidian), intentional `[[Foo]]` / `[[Three laws of motion]]` examples, Category C cross-plugin links (point at `skills/`/`docs/` — deferred)
+- Skipped: semantic tiling (M3) needs local ollama, not provisioned on host
+- Not done: [[log]] backfill of v1.6.1→v1.9.2 milestones (append-only; resume forward)
+
 ## [2026-04-24] save | v1.6.0 public release notes (Teams, Karpathy-style)
 - Type: release doc + visual assets
 - Locations (new): `docs/releases/v1.6.0.md` (346 lines, 6 sections, Karpathy-style prose), `wiki/meta/dragonscale-mechanism-overview.svg` (4-mechanism diagram with shared .vault-meta/ gate), `wiki/meta/dragonscale-6-test-flow.svg` (validation timeline), `wiki/meta/dragonscale-frontier-graph.svg` (M4 candidate + 3 filed pages)
@@ -50,7 +60,7 @@ Parse recent entries: `grep "^## \[" wiki/log.md | head -10`
 - Scope: six-test menu the user approved. Codex gpt-5.4 for T1/T4/T6 (sub-agent delegation); chair for T0/T2/T3 (one-shot shell) and all integration (index, log, hot, commit).
 - Style: all new content uses colons or parens instead of em-dashes. Pre-existing em-dashes in index entries and wiki/concepts/_index.md left as-is (clean-room boundary; deferred to F-slice style pass).
 - Tests still green: `make test` passes (74+ assertions).
-- Integration: chair added the 3 new concepts to `wiki/index.md` and `wiki/concepts/_index.md` with colon-style descriptions so the fresh pages are discoverable. The cluster extends `[[How does the LLM Wiki pattern work?]]` and cross-references `[[LLM Wiki Pattern]]`.
+- Integration: chair added the 3 new concepts to `wiki/index.md` and `wiki/concepts/_index.md` with colon-style descriptions so the fresh pages are discoverable. The cluster extends `[[How does the LLM Wiki pattern work]]` and cross-references `[[LLM Wiki Pattern]]`.
 - Next recommended slice: either (G) commit this test batch and declare v1.6.0 validated, or (H) run a second fold k=3 now that 8 newer entries exist above this one and close the hierarchical-fold-not-yet-supported loop in a future phase.
 
 ## [2026-04-24] save | v1.6.0 closeout (Teams, chair-led)

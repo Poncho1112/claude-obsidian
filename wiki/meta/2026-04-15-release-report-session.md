@@ -1,4 +1,5 @@
 ---
+created: 2026-04-15
 type: meta
 title: "Claude SEO v1.9.0 Release Report Session"
 updated: 2026-04-15
