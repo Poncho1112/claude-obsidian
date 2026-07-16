@@ -122,3 +122,68 @@ Needs your call:
 4. Backfill missing `created:` frontmatter (from git/mtime).
 5. Category E missing pages: create stubs vs. drop links (per-link judgement).
 6. Category C cross-plugin links: convert to markdown links vs. leave.
+
+---
+
+## Follow-up scan (same day, 2026-07-15 evening)
+
+Re-scanned `wiki/` (50 pages) via a standalone script against MCP-confirmed vault
+state, cross-checked against the fixes above.
+
+**Confirmed still clean:** orphans (0), frontmatter gaps (0 — `created`/`updated`/
+`type`/`status`/`tags` all present on every page). **Dead links:** same raw set as
+this report's Category B/C/D/E triage above, nothing new. No regressions.
+
+### New finding — Address Validation gap (DragonScale M2)
+
+This report's Address Validation section above says only [[DragonScale Memory]]
+needs an address and all else is legacy/informational. That's **incomplete**: the
+2026-04-23 rollout-date rule wasn't applied per-page. `.vault-meta/legacy-pages.txt`
+has no entries (comments only), so classification falls purely on `created:` date.
+Five pages have `created:` dates *after* 2026-04-23 and no `address:` field — under
+the skill's own rule ("post-rollout without address = lint error, not
+informational"), these are errors:
+
+- [[Persistent Wiki Artifact]] — created 2026-04-24
+- [[Query-Time Retrieval]] — created 2026-04-24
+- [[Source-First Synthesis]] — created 2026-04-24
+- [[methodology-modes]] (`wiki/references/`) — created 2026-05-17
+- [[transport-fallback]] (`wiki/references/`) — created 2026-05-17
+
+Counter state: peek = `3` (only `c-000001` in actual use on [[DragonScale Memory]];
+`c-000042` on that same page is a documentation example inside a code fence, not a
+real second address — no collision). No format errors, no counter drift.
+
+Per the skill: **lint only observes, address assignment is `wiki-ingest`'s job.**
+Fix path: run `./scripts/allocate-address.sh` for each of the 5 pages above and add
+the returned `c-NNNNNN` to frontmatter (manually, or via a `wiki-ingest`-style pass) —
+not an automated lint fix.
+
+> [!done] Resolved 2026-07-15: addresses `c-000003`–`c-000007` assigned to the 5
+> pages above. Counter now at `8`, no collisions.
+
+### Empty-section check — unreliable, not reported
+
+Ran a heading-adjacency check; it returned ~29 hits but nearly all are false
+positives from (a) headings inside fenced code examples (e.g. [[Hot Cache]]'s
+`## Recent Context` is a documentation sample inside a \`\`\`markdown block) and (b)
+normal H2→H3 hierarchy with no intro prose (e.g. `# Wiki vs RAG` → `## Overview`).
+Spot-checked 4 of 29; all were false positives. Not trustworthy without a real
+markdown-aware parser — skipping rather than reporting noise. The two `_index.md`
+placeholder "headings" ([[concepts/_index]], [[entities/_index]]) are intentional
+scaffold text, not a defect either way.
+
+### Semantic tiling — unavailable on this host
+
+`scripts/tiling-check.py` requires `fcntl` (POSIX-only); this host's Python
+(`py`, 3.14.5, Windows Store) doesn't have it, and no `python3` exists on PATH
+either (the `python3` shim is a non-functional Store alias — see `wiki-cli`
+transport-detection false positive noted separately). Needs WSL or a POSIX
+Python to run. Not attempted.
+
+### Open items after this pass
+
+1. **Address gap (new, above)** — 5 pages need `c-NNNNNN` assigned.
+2. Category E genuinely-missing pages (7 links, from earlier triage) — stub or drop.
+3. Category C cross-plugin links (7 links) — convert or leave, your call.
+4. Semantic tiling — deferred, needs WSL/POSIX Python + ollama.
