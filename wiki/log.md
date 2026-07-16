@@ -26,6 +26,15 @@ Parse recent entries: `grep "^## \[" wiki/log.md | head -10`
 
 ---
 
+## [2026-07-15] maintenance | Windows portability + delta reconcile + fork push
+- Type: setup + fix + git hygiene (no ingest — source was already filed)
+- MCP: registered `obsidian-vault` (mcpvault) at user scope, Status Connected; third tier in transport chain. Tools load next session.
+- Ingest check: [[claude-obsidian-ecosystem-research]] confirmed already-ingested (8 pages existed); `.raw/.manifest.json` `sources` was empty → backfilled delta record (`30b21f4`). No pages re-created.
+- Fix (`2bf0946`): `scripts/allocate-address.sh` `flock` → atomic `mkdir` mutex fallback for Git-Bash on Windows (5s timeout, `STALE_AFTER_SEC=30` reclaim, trap release). DragonScale addressing now works on Windows; counter untouched at 3.
+- Git: committed the 2026-07-15 lint reconcile (`dbb2a9f`, 23 files); untracked + gitignored `.obsidian/workspace.json` + `graph.json` (`c864e2c`, drops pre-configured graph view for fresh clones — accepted).
+- Push: fork-only to `mine` → github.com/Poncho1112/claude-obsidian. `origin` (AgriciDaniel) 403 for Poncho1112; no upstream PR (user chose fork-only).
+- Key insight: an ingested source with an empty manifest delta is misreported "pending" by `/wiki` setup — reconcile the manifest, don't re-ingest.
+
 ## [2026-07-15] lint | Drift reconcile (content layer → v1.9.2)
 - Type: wiki-lint health check + fixes
 - Report: [[lint-report-2026-07-15]] (49 pages scanned, filesystem transport — no Obsidian CLI on host)
