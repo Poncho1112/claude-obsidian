@@ -2,9 +2,12 @@
 # allocate-address.sh — atomic creation-order address allocation for the vault.
 #
 # Reserves the next address of the form c-NNNNNN and increments the counter
-# under an exclusive flock. On missing counter file, recovers by scanning the
-# vault for the highest existing c-NNNNNN in page frontmatter and resuming from
-# max+1. Never silently resets to 1 in a non-empty vault.
+# under an exclusive lock. Prefers flock (Linux/WSL/CI); on hosts without flock
+# (e.g. Git-Bash on Windows) it falls back to an atomic mkdir mutex with the
+# same 5s timeout and age-based stale-lock recovery. On missing counter file,
+# recovers by scanning the vault for the highest existing c-NNNNNN in page
+# frontmatter and resuming from max+1. Never silently resets to 1 in a
+# non-empty vault.
 #
 # Usage:
 #   ./scripts/allocate-address.sh           # prints the reserved address (e.g. c-000042) to stdout
@@ -22,7 +25,9 @@ set -euo pipefail
 VAULT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 COUNTER_FILE="${VAULT_ROOT}/.vault-meta/address-counter.txt"
 LOCK_FILE="${VAULT_ROOT}/.vault-meta/.address.lock"
+LOCK_DIR="${LOCK_FILE}.d"
 WIKI_DIR="${VAULT_ROOT}/wiki"
+STALE_AFTER_SEC="${STALE_AFTER_SEC:-30}"
 
 MODE="${1:-allocate}"
 
@@ -31,11 +36,47 @@ mkdir -p "$(dirname "$COUNTER_FILE")" || {
   exit 2
 }
 
-# Acquire exclusive lock with 5-second timeout. Release automatically on scope exit.
-exec 9>"$LOCK_FILE"
-if ! flock -x -w 5 9; then
-  echo "ERR: could not acquire address allocator lock within 5s" >&2
-  exit 1
+# --- Portable exclusive lock (5s timeout) ---------------------------------
+# flock is unavailable in some POSIX-ish environments (notably Git-Bash on
+# Windows). Prefer it where present; otherwise use an atomic mkdir mutex.
+_locked_by_mkdir=0
+
+release_lock() {
+  if [ "$_locked_by_mkdir" -eq 1 ]; then
+    rmdir "$LOCK_DIR" 2>/dev/null || true
+    _locked_by_mkdir=0
+  fi
+}
+
+if command -v flock >/dev/null 2>&1; then
+  # flock releases automatically when fd 9 closes at process exit.
+  exec 9>"$LOCK_FILE"
+  if ! flock -x -w 5 9; then
+    echo "ERR: could not acquire address allocator lock within 5s" >&2
+    exit 1
+  fi
+else
+  # mkdir is atomic: it fails if the directory already exists, giving us a
+  # race-free mutex. A crashed holder is reclaimed after STALE_AFTER_SEC.
+  waited=0
+  until mkdir "$LOCK_DIR" 2>/dev/null; do
+    if [ -d "$LOCK_DIR" ]; then
+      lock_mtime="$(stat -c %Y "$LOCK_DIR" 2>/dev/null || echo 0)"
+      age=$(( $(date +%s) - lock_mtime ))
+      if [ "$age" -ge "$STALE_AFTER_SEC" ]; then
+        rmdir "$LOCK_DIR" 2>/dev/null || true
+        continue
+      fi
+    fi
+    if [ "$waited" -ge 5 ]; then
+      echo "ERR: could not acquire address allocator lock within 5s" >&2
+      exit 1
+    fi
+    sleep 1
+    waited=$((waited + 1))
+  done
+  _locked_by_mkdir=1
+  trap release_lock EXIT
 fi
 
 scan_max_c_address() {
