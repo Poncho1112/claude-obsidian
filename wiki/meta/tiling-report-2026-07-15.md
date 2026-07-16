@@ -44,3 +44,19 @@
 - `0.8037` wiki/comparisons/claude-obsidian-ecosystem.md -- wiki/entities/Ar9av-obsidian-wiki.md
 - `0.8006` wiki/concepts/Pro Hub Challenge.md -- wiki/entities/Claude SEO.md
 - `0.8002` wiki/entities/ballred-obsidian-claude-pkm.md -- wiki/sources/claude-obsidian-ecosystem-research.md
+
+## Manual Review (2026-07-15)
+
+Both error-band pairs reviewed — **false positives, no action**:
+
+- `Compounding Knowledge` ↔ `LLM Wiki Pattern`: deliberately split companion
+  pages (architecture vs. underlying insight), already cross-linked as
+  intentional pair. Not a duplicate.
+- `claude-obsidian-ecosystem.md` ↔ `claude-obsidian-ecosystem-research.md`:
+  standard source→synthesis pair (`type: source` stub vs. its derived
+  `type: comparison` deliverable). High similarity is expected here, not a
+  defect.
+
+Default 0.80/0.90 thresholds run hot for this vault's writing style
+(companion pages and source/synthesis pairs cluster near 0.90 by design).
+Full calibration (label ~50 pairs, retune bands) deferred — not done here.
