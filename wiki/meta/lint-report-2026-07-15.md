@@ -181,6 +181,15 @@ either (the `python3` shim is a non-functional Store alias — see `wiki-cli`
 transport-detection false positive noted separately). Needs WSL or a POSIX
 Python to run. Not attempted.
 
+> [!done] Resolved 2026-07-15: ran from WSL (Ollama + `nomic-embed-text`
+> installed there for this). Full pair listing in
+> [[tiling-report-2026-07-15]]. 50 pages scanned, 26 embedded (24 skipped:
+> meta/fold/excluded filenames, 1 embed error). **2 error-band pairs**
+> (>=0.90): [[Compounding Knowledge]]↔[[LLM Wiki Pattern]] and
+> `claude-obsidian-ecosystem.md`↔`claude-obsidian-ecosystem-research.md`.
+> 27 review-band pairs. Thresholds uncalibrated (seed defaults) — read-only,
+> no auto-merge; the 2 error-band pairs are worth a manual look for overlap.
+
 ### Open items after this pass
 
 1. ~~Address gap~~ — resolved, see above.
@@ -188,4 +197,5 @@ Python to run. Not attempted.
 3. ~~Category C cross-plugin links~~ — resolved 2026-07-15: converted to full vault-path
    wikilinks with alias (e.g. `[[wiki-cli]]` → `[[skills/wiki-cli/SKILL|wiki-cli]]`) in
    transport-fallback, methodology-modes, and the fold-k3 page.
-4. Semantic tiling — deferred, needs WSL/POSIX Python + ollama.
+4. ~~Semantic tiling~~ — resolved, see above. 2 error-band pairs worth a
+   manual look; no auto-merge performed (lint is read-only for tiling).
