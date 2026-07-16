@@ -183,7 +183,9 @@ Python to run. Not attempted.
 
 ### Open items after this pass
 
-1. **Address gap (new, above)** — 5 pages need `c-NNNNNN` assigned.
-2. Category E genuinely-missing pages (7 links, from earlier triage) — stub or drop.
-3. Category C cross-plugin links (7 links) — convert or leave, your call.
+1. ~~Address gap~~ — resolved, see above.
+2. ~~Category E genuinely-missing pages~~ — already resolved prior to this pass (see [[log]]).
+3. ~~Category C cross-plugin links~~ — resolved 2026-07-15: converted to full vault-path
+   wikilinks with alias (e.g. `[[wiki-cli]]` → `[[skills/wiki-cli/SKILL|wiki-cli]]`) in
+   transport-fallback, methodology-modes, and the fold-k3 page.
 4. Semantic tiling — deferred, needs WSL/POSIX Python + ollama.
