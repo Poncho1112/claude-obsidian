@@ -27,6 +27,11 @@
     }
   },
   "address_map": {
-    "wiki/concepts/DragonScale Memory.md": "c-000001"
+    "wiki/concepts/DragonScale Memory.md": "c-000001",
+    "wiki/sources/ringer-case-ux-v2-session-2026-07-18.md": "c-000008",
+    "wiki/entities/Ringer.md": "c-000009",
+    "wiki/entities/ClearFusionLab-Case-Submission.md": "c-000010",
+    "wiki/concepts/Verified Swarm Delegation.md": "c-000011",
+    "wiki/concepts/Contract-First Parallel Split.md": "c-000012"
   }
 }

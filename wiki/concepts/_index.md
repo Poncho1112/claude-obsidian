@@ -41,4 +41,11 @@ All concept pages — ideas, patterns, and frameworks extracted from sources.
 
 ---
 
+## Multi-Agent & Orchestration
+
+- [[Verified Swarm Delegation]] — orchestrator-plus-workers pattern where every task is gated on an executed check (Ringer)
+- [[Contract-First Parallel Split]] — split a monolith under a frozen contract so N workers edit disjoint files in parallel
+
+---
+
 ## Add new concepts here as they are extracted from sources.

@@ -24,7 +24,7 @@ related:
 
 # Wiki Index
 
-Last updated: 2026-07-15 | Total pages: 49 | Sources ingested: 1
+Last updated: 2026-07-18 | Total pages: 54 | Sources ingested: 2
 
 Navigation: [[overview]] | [[log]] | [[hot]] | [[dashboard]] | [[Wiki Map]] | [[getting-started]]
 
@@ -45,6 +45,8 @@ Navigation: [[overview]] | [[log]] | [[hot]] | [[dashboard]] | [[Wiki Map]] | [[
 - [[Persistent Wiki Artifact]]: durable Markdown page as the LLM's memory object, distinct from ephemeral chat turns (status: developing)
 - [[Source-First Synthesis]]: provenance discipline; raw sources stay immutable while the wiki layer is synthesized and cited (status: developing)
 - [[Query-Time Retrieval]]: wiki query path synthesizes with citations; complementary to Obsidian's in-vault search (status: developing)
+- [[Verified Swarm Delegation]] — orchestrator writes specs + executed checks, parallel cheap workers type; exit 0 is the only PASS (status: developing)
+- [[Contract-First Parallel Split]] — split a monolith under a frozen contract (mounts + events + tokens) so N workers edit disjoint files (status: developing)
 
 ---
 
@@ -58,12 +60,15 @@ Navigation: [[overview]] | [[log]] | [[hot]] | [[dashboard]] | [[Wiki Map]] | [[
 - [[kepano-obsidian-skills]] — official skills from Obsidian creator; defuddle, obsidian-bases (status: current)
 - [[Claudian-YishenTu]] — native Obsidian plugin embedding Claude Code; plan mode, @mention (status: current)
 - [[Claude SEO]] — Tier 4 Claude Code skill for SEO analysis; 23 skills, 17 agents, 30 scripts at v1.9.0 (status: evergreen)
+- [[Ringer]] — verified-swarm delegation tool (ringer.py); parallel CLI workers, executed-check verification, Ringside dashboard (status: current)
+- [[ClearFusionLab-Case-Submission]] — dental-lab case-submission web app (Express); subject of the Ringer UX v2 build (status: current)
 
 ---
 
 ## Sources
 
 - [[claude-obsidian-ecosystem-research]] — 2026-04-08 | web research across 16+ repos | 8 wiki pages created
+- [[ringer-case-ux-v2-session-2026-07-18]] — 2026-07-18 | Ringer-routed UX v2 build (cross-project session) | 4 wiki pages created
 
 ---
 

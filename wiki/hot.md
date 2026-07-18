@@ -21,6 +21,8 @@ Navigation: [[index]] | [[log]] | [[overview]]
 
 ## Last Updated
 
+2026-07-18 (cross-project ingest): filed the [[ringer-case-ux-v2-session-2026-07-18]] session as a source. 4 new pages ([[Ringer]], [[ClearFusionLab-Case-Submission]], [[Verified Swarm Delegation]], [[Contract-First Parallel Split]]); DragonScale counter 8 to 13 (manual assign, see log for host flock/DrvFs limits). Plugin state below is unchanged.
+
 2026-07-15 (evening, lint follow-up session). **Current shipped version: v1.9.2.**
 Five commits landed this session, pushed to the `Poncho1112` fork only. Latest
 local commit `bcddf0c`.

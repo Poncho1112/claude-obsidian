@@ -37,7 +37,8 @@ All entity pages — people, organizations, products, and tools.
 
 ## Products & Tools
 
-<!-- Add tool and product pages here -->
+- [[Ringer]] — verified-swarm delegation tool (ringer.py); parallel CLI workers, executed-check verification
+- [[ClearFusionLab-Case-Submission]] — dental-lab case-submission web app (Express); subject of the Ringer UX v2 build
 
 ---
 

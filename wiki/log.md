@@ -26,6 +26,14 @@ Parse recent entries: `grep "^## \[" wiki/log.md | head -10`
 
 ---
 
+## [2026-07-18] ingest | Ringer-Routed Case Submission UX v2 Session
+- Type: cross-project session ingest (no .raw file; work happened in the separate Case Submission repo)
+- Summary: [[ringer-case-ux-v2-session-2026-07-18]]
+- Pages created: [[Ringer]], [[ClearFusionLab-Case-Submission]], [[Verified Swarm Delegation]], [[Contract-First Parallel Split]] (addresses c-000008 through c-000012)
+- Pages updated: [[index]], [[concepts/_index]], [[entities/_index]], [[sources/_index]], [[hot]]
+- Key insight: splitting a monolith under a frozen contract (mounts + events + tokens) converts a single-file bottleneck into parallel disjoint-ownership work; Ringer then gates every worker on an executed check (exit 0 is the only PASS).
+- Host note: DragonScale allocator and wiki-lock could not run here (Git Bash lacks flock; WSL DrvFs denied mkdir), so addresses were assigned manually from the counter (8 to 13) and address_map was updated in .raw/.manifest.json via node. wiki-lock skipped (single-writer session, no concurrent writers).
+
 ## [2026-07-15] lint | Follow-up pass: DragonScale addresses, Category C/E links, semantic tiling
 - Type: wiki-lint follow-up (same day as the drift-reconcile lint below) + fixes, no ingest
 - Transport: `detect-transport.sh` false-positived on the Obsidian Electron app launcher (`AppData/Local/Programs/Obsidian/obsidian`) as `obsidian-cli`; no real CLI binary exists on host. Corrected `.vault-meta/transport.json` (local, gitignored) to `preferred: mcp_obsidian`, verified live via `get_vault_stats`.
